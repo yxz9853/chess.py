@@ -14,4 +14,4 @@
 These can be installed using "pip install (module)"
 ---
 ## Running the game
-On the terminal in the main directory, and run "python chess.py"
+Open the terminal in the main directory, and run "python chess.py"
