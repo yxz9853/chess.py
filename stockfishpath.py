@@ -1,0 +1,1 @@
+thepath = "path/to/your/stockfish/executable"
