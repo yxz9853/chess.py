@@ -1,13 +1,18 @@
+havestockfish = True
+
 import pygame
 import cairosvg
 import io
 import os
 from testboard import testboards
-from stockfish import Stockfish
+try:
+  from stockfish import Stockfish
+except(ModuleNotFoundError):
+  print("Stockfish module not found.")
+  havestockfish = False
 from random import randint
 from collections import Counter
 from stockfishpath import thepath
-
 
 def movetonumber(move, p=None):
     if p == True:
@@ -995,41 +1000,45 @@ bots = {'Michael Adams': 1, 'Mace': 400, 'Oliver': 600, 'Rainier': 800, 'Yixuan'
 allboards.append(gameboard)
 strboards.append(str(gameboard))
 
-mode = input("Play against a human(H) or bot(B): ").lower()
-while mode not in ['b', 'h', 't']:
-    mode = input("Please input 'H' or 'B'. ").lower()
-if mode == 'b':
-    bot = True
-    for key, value in bots.items():
-        print(key + ": " + str(value) + " ELO")
-    against = input("Pick a bot to play against. ")
-    while against not in bots:
+if havestockfish == True:
+  mode = input("Play against a human(H) or bot(B): ").lower()
+  while mode not in ['b', 'h', 't']:
+      mode = input("Please input 'H' or 'B'. ").lower()
+  match mode:
+    case 'b':
+        bot = True
         for key, value in bots.items():
             print(key + ": " + str(value) + " ELO")
-        against = input("Pick a bot to play against.(Case sensitive) ")
-    rating = bots[against]
-    stockfish = Stockfish(path=thepath, depth=list(bots.keys()).index(
-        against) + 2, parameters={"UCI_LimitStrength": "true", "UCI_Elo": rating})
-    playas = input("Do you want to play as white(W) or black(B): ").lower()
-    while playas not in ['b', 'w']:
-        playas = input("Please input 'W' or 'B'. ").lower()
-    if playas == 'w':
-        player = 'w'
-    else:
-        player = 'b'
-elif mode == 't':
-    stockfish = Stockfish(path=thepath, depth=15, parameters={
-                          "UCI_LimitStrength": "true", "UCI_Elo": 2850})
-    against = 'Michael Adams'
-    rating = bots[against]
-    if input('') == 'b':
-        bot = True
-        player = None
-    else:
+        against = input("Pick a bot to play against. ")
+        while against not in bots:
+            for key, value in bots.items():
+                print(key + ": " + str(value) + " ELO")
+            against = input("Pick a bot to play against.(Case sensitive) ")
+        rating = bots[against]
+        stockfish = Stockfish(path=thepath, depth=list(bots.keys()).index(
+            against) + 2, parameters={"UCI_LimitStrength": "true", "UCI_Elo": rating})
+        playas = input("Do you want to play as white(W) or black(B): ").lower()
+        while playas not in ['b', 'w']:
+            playas = input("Please input 'W' or 'B'. ").lower()
+        if playas == 'w':
+            player = 'w'
+        else:
+            player = 'b'
+    case 't':
+        stockfish = Stockfish(path=thepath, depth=15, parameters={
+                              "UCI_LimitStrength": "true", "UCI_Elo": 2850})
+        against = 'Michael Adams'
+        rating = bots[against]
+        if input('') == 'b':
+            bot = True
+            player = None
+        else:
+            bot = False
+        gameboard = testboards[int(input('no. '))]
+    case other:
         bot = False
-    gameboard = testboards[int(input('no. '))]
 else:
-    bot = False
+  bot = False
 
 rules = input(
     "Do you want to see the rules and input for this program? ").lower()
@@ -1125,6 +1134,8 @@ draw_outer_layer(screen)
 pygame.display.update()
 
 input_text = ''
+
+round = []
 
 print('White to move: ')
 
