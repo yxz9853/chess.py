@@ -14,7 +14,7 @@ from random import randint
 from collections import Counter
 from stockfishpath import thepath
 
-def movetonumber(move, p=None):
+def movetonumber(move, p=None): #converts the notation to numbers for code to use
     if p == True:
         number = (8 - int(move[-3])) * 8 + squares[move[-4]]
     else:
@@ -22,13 +22,13 @@ def movetonumber(move, p=None):
     return number
 
 
-def tostring(number):
+def tostring(number): #converts the numbers back to notations
     string = list(squares.keys())[list(squares.values()).index(
         number % 8)]+str(7-int(number/8)+1)
     return string
 
 
-def configboard(board):
+def configboard(board): #configurates the 64 length list to a 8 by 8 list of lists
     tempboard = []
     for i in range(0, 8):
         row = []
@@ -39,7 +39,7 @@ def configboard(board):
     return(tempboard)
 
 
-def printboard(board):
+def printboard(board): #prints the board
     print("[' ']['a ', 'b ', 'c ', 'd ', 'e ', 'f ', 'g ', 'h ']")
     i = 8
     for a in configboard(board):
@@ -51,7 +51,7 @@ def printboard(board):
 allking = []
 
 
-def check(turn, move=None):
+def check(turn, move=None): #check if the king is in check
     if move != None:
         kinglocation = move
     else:
@@ -184,7 +184,7 @@ def check(turn, move=None):
     return False
 
 
-def checkmate(turn):
+def checkmate(turn): #checks for checkmate or stalemate
     for pieces in ['', 'R', 'K', 'Q', 'B', 'N']:
         for i in range(64):
             if getmove(pieces + tostring(i), turn, True):
@@ -200,7 +200,7 @@ numpieces = []
 strboards = []
 
 
-def draw():
+def draw(): #checks for draws
     numpieces.append(gameboard.count('  '))
     pawninboard = []
     allboards.append(gameboard)
@@ -238,7 +238,7 @@ def draw():
     return False
 
 
-def checkorigin(move, mtype, turn, origin):
+def checkorigin(move, mtype, turn, origin): #checks if a piece can move to the specified squared
     if mtype == 'pawn':
         if turn == 'w':
             try:
@@ -1096,7 +1096,7 @@ for name, filename in pieces.items():
     piece_images[name] = pygame_surface
 
 
-def draw_outer_layer(surface):
+def draw_outer_layer(surface): #draw the outside, numbers and board
     font = pygame.font.Font(None, int(squaresize / 10 * 4))
     for row in range(8):
         label = font.render(str(8-row), 1, (255, 255, 255))
