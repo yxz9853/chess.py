@@ -15,3 +15,6 @@ These can be installed using "pip install (module)"
 ---
 ## Running the game
 Download the whole directory, edit stockfishpath.py (if you have stockfish install) and open the terminal in the main directory, and run "python chess.py"
+---
+## If you plan to use Stockfish
+Find a download for your operating system, if you just google "Stockfish download {os}"
